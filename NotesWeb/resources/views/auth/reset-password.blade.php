@@ -1,54 +1,54 @@
 @extends('layouts.system')
 
-@section('title', 'Login')
+@section('title', 'Redefinir Senha')
 
 @section('content')
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <h1>🔐 Login</h1>
-                <p>Acesse o Sistema de Gerenciamento de Biblioteca</p>
+                <h1>🔐 Nova Senha</h1>
+                <p>Digite sua nova senha</p>
             </div>
 
             <div class="auth-form">
-                <form method="POST" action="{{ route('login') }}">
+                <form method="POST" action="{{ route('password.update') }}">
                     @csrf
+                    <input type="hidden" name="token" value="{{ $token }}">
+                    <input type="hidden" name="email" value="{{ $email ?? old('email') }}">
 
                     <div class="form-group">
                         <label for="email">E-mail</label>
-                        <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email"
-                            autofocus placeholder="seu@email.com">
+                        <input id="email" type="email" name="email" value="{{ $email ?? old('email') }}" required
+                            autocomplete="email" readonly>
                         @error('email')
                             <span class="error">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Senha</label>
-                        <input id="password" type="password" name="password" required autocomplete="current-password"
-                            placeholder="••••••••">
+                        <label for="password">Nova Senha</label>
+                        <input id="password" type="password" name="password" required autocomplete="new-password"
+                            placeholder="Mínimo 6 caracteres">
                         @error('password')
                             <span class="error">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div class="remember-me">
-                        <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                        <label for="remember">Lembrar de mim</label>
+                    <div class="form-group">
+                        <label for="password-confirm">Confirmar Senha</label>
+                        <input id="password-confirm" type="password" name="password_confirmation" required
+                            autocomplete="new-password" placeholder="Repita a senha">
                     </div>
 
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary btn-block">
-                            Entrar
+                            Redefinir Senha
                         </button>
                     </div>
 
                     <div class="auth-links">
-                        <a href="{{ route('register') }}">
-                            Não tem uma conta? <strong>Cadastre-se</strong>
-                        </a>
-                        <a href="{{ route('password.request') }}">
-                            Esqueceu sua senha?
+                        <a href="{{ route('login') }}">
+                            ← Voltar para o Login
                         </a>
                     </div>
                 </form>
@@ -94,18 +94,6 @@
             margin-bottom: 1.5rem;
         }
 
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .remember-me label {
-            color: var(--text-light);
-            font-weight: normal;
-        }
-
         .btn-block {
             width: 100%;
             padding: 0.75rem;
@@ -114,9 +102,6 @@
         .auth-links {
             text-align: center;
             margin-top: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
         }
 
         .auth-links a {

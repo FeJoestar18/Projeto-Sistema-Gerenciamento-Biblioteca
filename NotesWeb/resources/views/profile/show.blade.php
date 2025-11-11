@@ -1,204 +1,180 @@
-@extends('layouts.app')
+@extends('layouts.system')
+
+@section('title', 'Meu Perfil')
 
 @section('content')
-<div class="profile-container">
-    <div class="profile-header">
-        <h1>Meu Perfil</h1>
-        <a href="{{ route('profile.edit') }}" class="btn-edit-profile">
-            <span class="icon">✏️</span> Editar Perfil
-        </a>
-    </div>
-
-    <div class="profile-card">
-        <div class="profile-info">
-            <div class="profile-avatar">
-                <span class="avatar-initial">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
-            </div>
-
-            <div class="profile-details">
-                <div class="detail-item">
-                    <label>Nome:</label>
-                    <span class="detail-value">{{ $user->name }}</span>
-                </div>
-
-                <div class="detail-item">
-                    <label>E-mail:</label>
-                    <span class="detail-value">{{ $user->email }}</span>
-                </div>
-
-                <div class="detail-item">
-                    <label>Membro desde:</label>
-                    <span class="detail-value">{{ $user->created_at->format('d/m/Y') }}</span>
-                </div>
-            </div>
+    <div class="container">
+        <div class="page-header">
+            <h1>👤 Meu Perfil</h1>
+            <a href="{{ route('profile.edit') }}" class="btn btn-primary">
+                ✏️ Editar Perfil
+            </a>
         </div>
 
-        <div class="profile-stats">
-            <div class="stat-item">
-                <span class="stat-number">{{ $user->notes()->count() }}</span>
-                <span class="stat-label">Total de Notas</span>
+        <div class="profile-card">
+            <div class="profile-info">
+                <div class="profile-avatar">
+                    <span class="avatar-initial">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
+                </div>
+
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <label>Nome:</label>
+                        <span class="detail-value">{{ $user->name }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>E-mail:</label>
+                        <span class="detail-value">{{ $user->email }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Membro desde:</label>
+                        <span class="detail-value">{{ $user->created_at->format('d/m/Y') }}</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="stat-item">
-                <span class="stat-number">{{ $user->notes()->where('is_public', true)->count() }}</span>
-                <span class="stat-label">Notas Públicas</span>
-            </div>
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-number">{{ $user->role }}</span>
+                    <span class="stat-label">Tipo de Conta</span>
+                </div>
 
-            <div class="stat-item">
-                <span class="stat-number">{{ $user->notes()->where('is_public', false)->count() }}</span>
-                <span class="stat-label">Notas Privadas</span>
+                @if($user->isEmployee() || $user->isAdmin())
+                    <div class="stat-item">
+                        <span class="stat-number">{{ \App\Models\Book::where('created_by', $user->id)->count() }}</span>
+                        <span class="stat-label">Livros Cadastrados</span>
+                    </div>
+                @endif
+
+                @if($user->isEmployee() || $user->isAdmin())
+                    <div class="stat-item">
+                        <span class="stat-number">{{ \App\Models\StockLog::where('user_id', $user->id)->count() }}</span>
+                        <span class="stat-label">Operações de Estoque</span>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
-</div>
 
-<style>
-.profile-container {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 20px;
-}
+    <style>
+        .profile-card {
+            background: linear-gradient(135deg, var(--medium-gray) 0%, var(--light-gray) 100%);
+            border: 1px solid rgba(196, 30, 58, 0.3);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
 
-.profile-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    border-bottom: 3px solid #e60000;
-    padding-bottom: 15px;
-}
+        .profile-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(196, 30, 58, 0.2);
+        }
 
-.profile-header h1 {
-    margin: 0;
-    color: #333;
-    font-size: 28px;
-}
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-red), #ff3333);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 2rem;
+            box-shadow: 0 4px 8px rgba(196, 30, 58, 0.3);
+        }
 
-.btn-edit-profile {
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #e60000;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
+        .avatar-initial {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
 
-.btn-edit-profile:hover {
-    background-color: #cc0000;
-}
+        .profile-details {
+            flex: 1;
+        }
 
-.btn-edit-profile .icon {
-    margin-right: 8px;
-}
+        .detail-item {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
 
-.profile-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    padding: 30px;
-}
+        .detail-item label {
+            font-weight: 600;
+            color: var(--text-light);
+            width: 140px;
+            margin-right: 1rem;
+        }
 
-.profile-info {
-    display: flex;
-    align-items: center;
-    margin-bottom: 30px;
-}
+        .detail-value {
+            color: var(--white);
+            font-size: 1.1rem;
+        }
 
-.profile-avatar {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, #e60000, #ff3333);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 30px;
-}
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
 
-.avatar-initial {
-    color: white;
-    font-size: 32px;
-    font-weight: bold;
-}
+        .stat-item {
+            text-align: center;
+            background-color: var(--dark-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(196, 30, 58, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.profile-details {
-    flex: 1;
-}
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(196, 30, 58, 0.4);
+        }
 
-.detail-item {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-}
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+            text-transform: capitalize;
+        }
 
-.detail-item label {
-    font-weight: 600;
-    color: #555;
-    width: 120px;
-    margin-right: 15px;
-}
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
 
-.detail-value {
-    color: #333;
-    font-size: 16px;
-}
+        @media (max-width: 768px) {
+            .profile-info {
+                flex-direction: column;
+                text-align: center;
+            }
 
-.profile-stats {
-    display: flex;
-    justify-content: space-around;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 20px;
-    border-top: 3px solid #e60000;
-}
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
 
-.stat-item {
-    text-align: center;
-}
+            .detail-item {
+                flex-direction: column;
+                text-align: center;
+            }
 
-.stat-number {
-    display: block;
-    font-size: 24px;
-    font-weight: bold;
-    color: #e60000;
-    margin-bottom: 5px;
-}
+            .detail-item label {
+                width: auto;
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
 
-.stat-label {
-    color: #666;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-@media (max-width: 768px) {
-    .profile-info {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .profile-avatar {
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-
-    .detail-item {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .detail-item label {
-        width: auto;
-        margin-right: 0;
-        margin-bottom: 5px;
-    }
-
-    .profile-stats {
-        flex-direction: column;
-        gap: 15px;
-    }
-}
-</style>
+            .profile-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 @endsection

@@ -18,12 +18,7 @@
 
     <div class="main-menu">
         <a href="{{ route('home') }}">Início</a>
-        <a href="{{ route('notes.index') }}">Todas as Notas</a>
 
-        @auth
-            <a href="{{ route('notes.create') }}">Criar Nota</a>
-            <a href="{{ route('notes.index') }}?mine=true">Minhas Notas</a>
-        @endauth
     </div>
 
     <div class="auth-links">
