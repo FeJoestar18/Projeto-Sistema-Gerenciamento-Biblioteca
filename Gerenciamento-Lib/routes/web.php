@@ -9,6 +9,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -61,6 +62,20 @@ Route::middleware('auth')->group(function () {
 
     // RN-006: Rotas de departamentos (apenas admin)
     Route::resource('departments', DepartmentController::class);
+
+    // Rotas do sistema de contato
+    Route::prefix('contact')->name('contact.')->group(function () {
+        Route::get('/', [ContactController::class, 'create'])->name('create');
+        Route::post('/', [ContactController::class, 'store'])->name('store');
+        Route::get('/my-messages', [ContactController::class, 'myMessages'])->name('my-messages');
+        Route::get('/message/{contactMessage}', [ContactController::class, 'show'])->name('show');
+
+        // Rotas para gerenciamento
+        Route::get('/manage', [ContactController::class, 'manage'])->name('manage');
+        Route::get('/manage/{contactMessage}', [ContactController::class, 'edit'])->name('edit');
+        Route::put('/manage/{contactMessage}', [ContactController::class, 'update'])->name('update');
+        Route::post('/assign/{contactMessage}', [ContactController::class, 'assign'])->name('assign');
+    });
 });
 
 // RN-014: Rota pública de visualização de livro individual (DEVE vir por último para não conflitar)
