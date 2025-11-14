@@ -6,7 +6,8 @@ Sistema web completo para gerenciamento de bibliotecas desenvolvido em **Laravel
 
 ###  Links 
 Git hub: https://github.com/FeJoestar18/Projeto-Sistema-Gerenciamento-Biblioteca.git <br>
-Youtube: https://youtu.be/5Dzn--yJLTc?si=DTBA0SykKkqoEDIg
+Youtube: https://youtu.be/5Dzn--yJLTc?si=DTBA0SykKkqoEDIg <br>
+Google Drive: https://drive.google.com/drive/folders/1E7dGXgofgTwLK_beucMG1I5rpdzlGsyX?usp=sharing
 
 ### ✨ Principais Funcionalidades
 
