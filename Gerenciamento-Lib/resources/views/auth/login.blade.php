@@ -32,10 +32,10 @@
                         @enderror
                     </div>
 
-                    <div class="remember-me">
+                    <!-- <div class="remember-me">
                         <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label for="remember">Lembrar de mim</label>
-                    </div>
+                    </div> -->
 
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary btn-block">
