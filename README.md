@@ -5,7 +5,7 @@
 Sistema web completo para gerenciamento de bibliotecas desenvolvido em **Laravel 11**, oferecendo funcionalidades robustas para administração de livros, funcionários, departamentos e usuários. O sistema implementa controle de estoque, sistema de auditoria completo, gestão de empréstimos e comunicação através de sistema de contato integrado.
 
 ###  Links 
-Git hub: https://github.com/FeJoestar18/Projeto-Sistema-Gerenciamento-Biblioteca.git
+Git hub: https://github.com/FeJoestar18/Projeto-Sistema-Gerenciamento-Biblioteca.git <br>
 Youtube: https://youtu.be/5Dzn--yJLTc?si=DTBA0SykKkqoEDIg
 
 ### ✨ Principais Funcionalidades
